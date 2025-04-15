@@ -1,10 +1,10 @@
-#include "figure.h"
+#include "vertexexCreators.h"
 
-baseFigureCreator::baseFigureCreator()
+baseVertexesCreator::baseVertexesCreator()
 {
 }
 
-baseTriangle::baseTriangle()
+regularTriangleVertexesCreator::regularTriangleVertexesCreator()
 {   
     float baseY = SDL_sqrt(3);
     vertex.push_back({0, 0});
@@ -13,7 +13,7 @@ baseTriangle::baseTriangle()
 }
 
 
-SDL_FPoint baseFigureCreator::getCenter()
+SDL_FPoint baseVertexesCreator::getCenter()
 {
     if (vertex.empty()) {
         return SDL_FPoint{0, 0};
@@ -32,7 +32,7 @@ SDL_FPoint baseFigureCreator::getCenter()
     return center;
 }
 
-std::shared_ptr<std::vector<SDL_FPoint>> baseFigureCreator::getVertex()
+std::shared_ptr<std::vector<SDL_FPoint>> baseVertexesCreator::getVertex()
 {
     return std::make_shared<std::vector<SDL_FPoint>>(vertex);
 }
@@ -108,17 +108,17 @@ void circleCreator::createCircle(float centerX, float centerY, int radius)
     }
 }
 
-curveCreator::curveCreator()
+curveVertexesCreator::curveVertexesCreator()
 {
 
 }
 
-curveCreator::curveCreator(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step)
+curveVertexesCreator::curveVertexesCreator(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step)
 {
-    createCurve(p0,p1,p2,step);
+    curveVertexesCreator(p0,p1,p2,step);
 }
 
-void curveCreator::createCurve(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step)
+void curveVertexesCreator::createCurve(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step)
 {   
     vertex.clear();
     float  
@@ -141,7 +141,7 @@ void curveCreator::createCurve(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, floa
     }
 }
 
-doubleCurveCreator::doubleCurveCreator(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step)
+doubleCurveVertexesCreator::doubleCurveVertexesCreator(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step)
 {
     SDL_FPoint p3;
     p3.x = p2.x - (p1.x - p0.x);
@@ -154,46 +154,5 @@ doubleCurveCreator::doubleCurveCreator(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint 
     vertex.insert(vertex.end(),rev.begin(),rev.end());
 }
 
-
-dimond::dimond(int wl, int wh, int size)
-{   
-    this->size = size;
-    basePoseX = (wl-size*quadr+size/2);
-    basePoseY = (wh-size*2+size/2);
-    int k, kpo;
-
-    for(int i = 0; i<quadr; i++){
-        k = quadr2-i-1;
-        kpo = k-3; //k minus three
-
-        rect[i].w = rect[i].h = rect[k].w = rect[k].h = size;
-
-        if(i%2==0){ 
-            rect[i].x = (i*size+basePoseX)/2;
-            rect[i].y = (-i*size+basePoseY)/2;
-
-            rect[k].x = (kpo*size+basePoseX)/2;
-            rect[k].y = rect[i].y;
-        }
-        else{
-            rect[i].x = ((i-1)*size+basePoseX)/2;
-            rect[i].y = ((i-1)*size+basePoseY)/2;
-
-            rect[k].x = ((kpo+1)*size+basePoseX)/2;
-            rect[k].y = rect[i].y;
-        }
-    }
-
-}
-
-SDL_FRect *dimond::getQuad()
-{   
-    return rect;
-}
-
-int dimond::getResolution()
-{
-    return quadr2;
-}
 
 
