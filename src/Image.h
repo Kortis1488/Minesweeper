@@ -1,5 +1,7 @@
 #pragma once
-#include "position.h"
+#include "coordinateTransformator.h"
+#include "shapeAssembler.h"
+#include "filler.h"
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720

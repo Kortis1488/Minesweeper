@@ -9,7 +9,6 @@
 
 #define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
 #include "vertexexCreators.h"
-#include "position.h"
 #include "Image.h"
 
 #include <SDL3/SDL.h>
@@ -102,7 +101,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     SDL_RenderClear(renderer);
     
     SDL_SetRenderDrawColor(renderer, 0, 150, 0, 100);
-    SDL_RenderPoints(renderer,rTVC.getVertex()->data(),rTVC.getVertex()->size());
+    SDL_RenderPoints(renderer,rTVC.getVertexes()->data(),rTVC.getVertexes()->size());
                             
     SDL_RenderPresent(renderer);
     //return SDL_APP_FAILURE;

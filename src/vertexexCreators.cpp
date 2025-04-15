@@ -1,8 +1,6 @@
 #include "vertexexCreators.h"
 
-baseVertexesCreator::baseVertexesCreator()
-{
-}
+
 
 regularTriangleVertexesCreator::regularTriangleVertexesCreator()
 {   
@@ -13,7 +11,7 @@ regularTriangleVertexesCreator::regularTriangleVertexesCreator()
 }
 
 
-SDL_FPoint baseVertexesCreator::getCenter()
+SDL_FPoint vertexes::getCenter()
 {
     if (vertex.empty()) {
         return SDL_FPoint{0, 0};
@@ -32,7 +30,7 @@ SDL_FPoint baseVertexesCreator::getCenter()
     return center;
 }
 
-std::shared_ptr<std::vector<SDL_FPoint>> baseVertexesCreator::getVertex()
+std::shared_ptr<std::vector<SDL_FPoint>> vertexes::getVertexes()
 {
     return std::make_shared<std::vector<SDL_FPoint>>(vertex);
 }

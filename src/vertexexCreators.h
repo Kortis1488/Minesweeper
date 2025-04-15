@@ -5,28 +5,27 @@
 #include <iostream>
 #include <algorithm>
 
-class baseVertexesCreator{
+class vertexes{
     protected:
         std::vector<SDL_FPoint> vertex;
     public:
-        baseVertexesCreator();
         virtual SDL_FPoint getCenter();
-        std::shared_ptr <std::vector<SDL_FPoint>> getVertex(); 
+        std::shared_ptr <std::vector<SDL_FPoint>> getVertexes(); 
 };
 
-class regularTriangleVertexesCreator: public baseVertexesCreator{
+class regularTriangleVertexesCreator: public vertexes{
     public:
         regularTriangleVertexesCreator();
     };
 
-class circleCreator: public baseVertexesCreator{
+class circleCreator: public vertexes{
     public:
         circleCreator();
         circleCreator(float centerX, float centerY, int radius);
         void createCircle(float centerX, float centerY, int radius);
 };
 
-class curveVertexesCreator: public baseVertexesCreator{
+class curveVertexesCreator: public vertexes{
     public:
         curveVertexesCreator();
         curveVertexesCreator(SDL_FPoint p0, SDL_FPoint p1, SDL_FPoint p2, float step);

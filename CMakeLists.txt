@@ -15,7 +15,9 @@ add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)
 add_executable(Water 
                     src/main.cpp
                     src/vertexexCreators.cpp 
-                    src/position.cpp
+                    src/coordinateTransformator.cpp
+                    src/filler.cpp
+                    src/shapeAssembler.cpp
                     src/Image.cpp)
 
 # Link to the actual SDL3 library.
