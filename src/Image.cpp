@@ -19,7 +19,7 @@ void imageDesigner::setImageWithPreparedOutline(std::vector<SDL_FPoint> *pts)
 {   
     outline.insert(outline.end(),pts->begin(),pts->end());
     inner.insert(inner.end(),outline.begin(),outline.end());
-    innerRegion.createInnReg(inner);
+    //innerRegion.createInnReg(inner);
     points.insert(points.end(),inner.begin(),inner.end());
 }
 
@@ -50,7 +50,7 @@ void imageDesigner::creatOutline()
         lin.createLines(vertex[i],vertex[i+1]);
     }
     lin.createLines(vertex[0],vertex[vertex.size()-1]);
-    outline.insert(outline.end(),lin.getLines()->begin(),lin.getLines()->end());
+    outline.insert(outline.end(),lin.getLines().begin(),lin.getLines().end());
     lin.clear();
 }
 
@@ -74,9 +74,9 @@ void imageDesigner::rotate(float radian)
 
     creatOutline();
     
-    inner.insert(inner.end(),outline.begin(),outline.end());
-    innerRegion.createInnReg(inner);
-    points.insert(points.end(),inner.begin(),inner.end());
+    // inner.insert(inner.end(),outline.begin(),outline.end());
+    // innerRegion.createInnReg(inner);
+    // points.insert(points.end(),inner.begin(),inner.end());
 
 
 }

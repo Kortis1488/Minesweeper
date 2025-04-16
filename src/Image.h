@@ -24,7 +24,7 @@ class imageDesigner{
         lineCreator lin;    
         scaler scaler;
         offseter offseter;
-        innerRegion innerRegion;
+        innerRegionCreator innerRegion;
         rotator rotator;
         
         void setImageWithAutoOutline(std::vector<SDL_FPoint> *points, float scale);

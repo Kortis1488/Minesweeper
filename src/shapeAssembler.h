@@ -4,17 +4,19 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>
-
-
-class baseAssebler{
-
-};
+#include "vertexexCreators.h"
 
 class lineCreator{
-    private:
+    protected:
         std::vector<SDL_FPoint> lines;
     public:
         void createLines(const SDL_FPoint &lpoint, const SDL_FPoint &rpoint);
-        const std::vector<SDL_FPoint>*  getLines();
+        const std::vector<SDL_FPoint> getLines();
         void clear();
 };
+
+class outlineCreator: public lineCreator{
+    public:
+        void createOutline(vertexes & vert);
+};
+

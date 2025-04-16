@@ -47,12 +47,22 @@ void lineCreator::createLines(const SDL_FPoint &point1, const SDL_FPoint &point2
 }
 
 
-const std::vector<SDL_FPoint>* lineCreator::getLines()
+const std::vector<SDL_FPoint> lineCreator::getLines()
 {
-    return &lines;
+    return lines;
 }
 
 void lineCreator::clear()
 {
     lines.clear();
+}
+
+void outlineCreator::createOutline(vertexes & vert)
+{   
+    clear();
+    std::vector<SDL_FPoint> vertex = vert.getVertexes();
+    for(size_t i = 0; i<vertex.size()-1; i++){
+        createLines(vertex[i],vertex[i+1]);
+    }
+    createLines(vertex[0],vertex[vertex.size()-1]);
 }

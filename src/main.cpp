@@ -15,7 +15,8 @@
 #include <SDL3/SDL_main.h>
 #include <iostream>
 #include <vector>
-
+#include "shapeAssembler.h"
+#include "filler.h"
 
 
 /* We will use this renderer to draw into this window every frame. */
@@ -25,6 +26,9 @@ static Uint64 last_time = 0;
 regularTriangleVertexesCreator rTVC;
 scaler scl;
 offseter ofst;
+outlineCreator outCr;
+innerRegionCreator innRegCr;
+
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -56,7 +60,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
     scl.scale(rTVC,100);
     ofst.offset(rTVC, WW, WH);
-
+    outCr.createOutline(rTVC);
+    innRegCr.createInnReg(outCr);
+    
     int i;
     SDL_SetAppMetadata("Example Renderer Points", "1.0", "com.example.renderer-points");
 
@@ -103,7 +109,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     SDL_RenderClear(renderer);
     
     SDL_SetRenderDrawColor(renderer, 0, 150, 0, 100);
-    SDL_RenderPoints(renderer,rTVC.getVertexes().data(),rTVC.getVertexes().size());
+    SDL_RenderPoints(renderer,innRegCr.getInnerRegion().data(),innRegCr.getInnerRegion().size());
                             
     SDL_RenderPresent(renderer);
     //return SDL_APP_FAILURE;

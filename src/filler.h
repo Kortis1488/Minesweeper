@@ -7,9 +7,12 @@
 
 
 
-class innerRegion{
+class innerRegionCreator{
+    protected:
+        std::vector<SDL_FPoint> innerRegion;
     public:
-        void createInnReg(std::vector<SDL_FPoint> &lin);
+        void createInnReg(outlineCreator &lin);
+        std::vector<SDL_FPoint> getInnerRegion();
 };
 
 
