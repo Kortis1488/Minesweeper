@@ -21,7 +21,7 @@ class imageDesigner{
         std::vector<SDL_FPoint> outline;
         std::vector<SDL_FPoint> inner;
 
-        lines lin;    
+        lineCreator lin;    
         scaler scaler;
         offseter offseter;
         innerRegion innerRegion;

@@ -5,14 +5,14 @@
 
 void imageDesigner::setImageWithAutoOutline(std::vector<SDL_FPoint> *pts, float scale)
 {   
-    vertex.insert(vertex.end(),pts->begin(),pts->end());
-    calculateCenter(ANGLES);
-    if(scale!=1) scaler.scale(vertex, this->center, scale);
-    offseter.offset(vertex, this->center, WW, WH);
-    creatOutline();
-    inner.insert(inner.end(),outline.begin(),outline.end());
-    innerRegion.createInnReg(inner);
-    points.insert(points.end(),inner.begin(),inner.end());
+    // vertex.insert(vertex.end(),pts->begin(),pts->end());
+    // calculateCenter(ANGLES);
+    // if(scale!=1) scaler.scale(vertex, this->center, scale);
+    // offseter.offset(vertex, this->center, WW, WH);
+    // creatOutline();
+    // inner.insert(inner.end(),outline.begin(),outline.end());
+    // innerRegion.createInnReg(inner);
+    // points.insert(points.end(),inner.begin(),inner.end());
 }
 
 void imageDesigner::setImageWithPreparedOutline(std::vector<SDL_FPoint> *pts)
@@ -70,7 +70,7 @@ void imageDesigner::rotate(float radian)
     points.clear();
 
     calculateCenter(ANGLES); 
-    rotator.rotate(vertex,center,radian,offseter);
+    //rotator.rotate(vertex,center,radian,offseter);
 
     creatOutline();
     

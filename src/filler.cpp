@@ -9,7 +9,7 @@ void innerRegion::createInnReg(std::vector<SDL_FPoint> &lin)
         return lpoint.x < rpoint.x;
     };
 
-    lines l;
+    lineCreator l;
     sort(lin.begin(),lin.end(),comparePoints);
 
     for(int i = 0; i<lin.size()-1; i++){

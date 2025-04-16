@@ -9,20 +9,20 @@
 class offseter{
     public:
         offseter();
-        void offset(vertexes & vert, SDL_FPoint center, int ww, int wh);
+        void offset(vertexes & vert, int ww, int wh);
 };
 
 class rotator{ 
     public: 
         rotator();
-        void rotate(vertexes & vert, SDL_FPoint center, float turnAngle, offseter offst);
+        void rotate(vertexes & vert, float turnAngle);
     
 };
 
 class scaler{
     public:
         scaler();
-        void scale(vertexes & vert, SDL_FPoint center, float scaleVal);
+        void scale(vertexes & vert, float scaleVal);
 };
 
 

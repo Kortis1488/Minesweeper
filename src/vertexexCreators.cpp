@@ -10,6 +10,10 @@ regularTriangleVertexesCreator::regularTriangleVertexesCreator()
     vertex.push_back({-1.0, baseY});
 }
 
+vertexes::vertexes()
+{
+    
+}
 
 SDL_FPoint vertexes::getCenter()
 {
@@ -30,9 +34,16 @@ SDL_FPoint vertexes::getCenter()
     return center;
 }
 
-std::shared_ptr<std::vector<SDL_FPoint>> vertexes::getVertexes()
+
+std::vector<SDL_FPoint> vertexes::getVertexes()
+{   
+    return vertex;
+}
+
+bool vertexes::setVertexes(std::vector<SDL_FPoint> vert)
 {
-    return std::make_shared<std::vector<SDL_FPoint>>(vertex);
+    if(vert.size() != vertex.size()) return false;
+    vertex = vert;
 }
 
 circleCreator::circleCreator()

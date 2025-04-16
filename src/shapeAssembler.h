@@ -10,11 +10,11 @@ class baseAssebler{
 
 };
 
-class lines{
+class lineCreator{
     private:
-    std::vector<SDL_FPoint> lin;
+        std::vector<SDL_FPoint> lines;
     public:
         void createLines(const SDL_FPoint &lpoint, const SDL_FPoint &rpoint);
-        std::vector<SDL_FPoint>* getLines();
+        const std::vector<SDL_FPoint>*  getLines();
         void clear();
 };

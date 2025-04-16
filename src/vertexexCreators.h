@@ -9,8 +9,10 @@ class vertexes{
     protected:
         std::vector<SDL_FPoint> vertex;
     public:
+        vertexes();
         virtual SDL_FPoint getCenter();
-        std::shared_ptr <std::vector<SDL_FPoint>> getVertexes(); 
+        std::vector<SDL_FPoint> getVertexes();
+        bool setVertexes(std::vector<SDL_FPoint> vert);
 };
 
 class regularTriangleVertexesCreator: public vertexes{

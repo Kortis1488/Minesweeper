@@ -23,8 +23,8 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
 static Uint64 last_time = 0;
 regularTriangleVertexesCreator rTVC;
-
-
+scaler scl;
+offseter ofst;
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -54,7 +54,9 @@ static float point_speeds[NUM_POINTS];
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
-    
+    scl.scale(rTVC,100);
+    ofst.offset(rTVC, WW, WH);
+
     int i;
     SDL_SetAppMetadata("Example Renderer Points", "1.0", "com.example.renderer-points");
 
@@ -101,7 +103,7 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     SDL_RenderClear(renderer);
     
     SDL_SetRenderDrawColor(renderer, 0, 150, 0, 100);
-    SDL_RenderPoints(renderer,rTVC.getVertexes()->data(),rTVC.getVertexes()->size());
+    SDL_RenderPoints(renderer,rTVC.getVertexes().data(),rTVC.getVertexes().size());
                             
     SDL_RenderPresent(renderer);
     //return SDL_APP_FAILURE;

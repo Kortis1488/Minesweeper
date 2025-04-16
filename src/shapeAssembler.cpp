@@ -1,6 +1,6 @@
 #include"shapeAssembler.h"
 
-void lines::createLines(const SDL_FPoint &point1, const SDL_FPoint &point2)
+void lineCreator::createLines(const SDL_FPoint &point1, const SDL_FPoint &point2)
 {  
     SDL_FPoint 
         p1 = point1, 
@@ -30,7 +30,7 @@ void lines::createLines(const SDL_FPoint &point1, const SDL_FPoint &point2)
     
     while (!(p1.x == p2.x && p1.y == p2.y))
     {
-        lin.push_back(p1);
+        lines.push_back(p1);
         err += df;
         if (err >= 0.5f) 
         {
@@ -43,16 +43,16 @@ void lines::createLines(const SDL_FPoint &point1, const SDL_FPoint &point2)
             *mainFlowValPtr += *mainSignPtr;
         }
     }
-    lin.push_back(p1);
+    lines.push_back(p1);
 }
 
 
-std::vector<SDL_FPoint>* lines::getLines()
+const std::vector<SDL_FPoint>* lineCreator::getLines()
 {
-    return &lin;
+    return &lines;
 }
 
-void lines::clear()
+void lineCreator::clear()
 {
-    lin.clear();
+    lines.clear();
 }
