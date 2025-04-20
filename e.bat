@@ -1,2 +1,2 @@
 cmake --build bin
-D:\Desktop\minesweeper\bin\Debug\Water.exe 
+D:\Desktop\minesweeper\bin\Debug\Mine.exe 

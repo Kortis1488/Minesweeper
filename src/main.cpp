@@ -8,26 +8,29 @@
  */
 
 #define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
-#include "vertexexCreators.h"
-#include "Image.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3_image/SDL_image.h>
 #include <iostream>
 #include <vector>
-#include "shapeAssembler.h"
-#include "filler.h"
+
+#include "gameLogic/gameLogic.h"
+#include "renderLogic/renderLogic.h"
 
 
 /* We will use this renderer to draw into this window every frame. */
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-static Uint64 last_time = 0;
-regularTriangleVertexesCreator rTVC;
-scaler scl;
-offseter ofst;
-outlineCreator outCr;
-innerRegionCreator innRegCr;
+
+
+static SDL_Texture *texture = NULL;
+static int texture_width = 0;
+static int texture_height = 0;
+int rows = 20;
+int cols = 30;
+
+field gField(rows,cols);
 
 
 #define WINDOW_WIDTH 1280
@@ -36,54 +39,27 @@ innerRegionCreator innRegCr;
 #define WW WINDOW_WIDTH
 #define WH WINDOW_HEIGHT
 
-#define NUM_POINTS 500
-#define MIN_PIXELS_PER_SECOND 30  /* move at least this many pixels per second. */
-#define MAX_PIXELS_PER_SECOND 60  /* move this many pixels per second at most. */
+#define PI 3.141592653589793
+#define TORADIAN PI/180
 
 
-
-
-/* (track everything as parallel arrays instead of a array of structs,
-   so we can pass the coordinates to the renderer in a single function call.) */
-
-/* Points are plotted as a set of X and Y coordinates.
-   (0, 0) is the top left of the window, and larger numbers go down
-   and to the right. This isn't how geometry works, but this is pretty
-   standard in 2D graphics. */
-static SDL_FPoint points[NUM_POINTS];
-static float point_speeds[NUM_POINTS];
-
-
-
-/* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
-{
-    scl.scale(rTVC,100);
-    ofst.offset(rTVC, WW, WH);
-    outCr.createOutline(rTVC);
-    innRegCr.createInnReg(outCr);
+{    
+    SDL_SetAppMetadata("Minesweeper", "1.0", "bruh");
     
-    int i;
-    SDL_SetAppMetadata("Example Renderer Points", "1.0", "com.example.renderer-points");
-
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
-    if (!SDL_CreateWindowAndRenderer("Bruh", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer("Minesweeper", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer)){
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
-    /* set up the data for a bunch of points. */
-    for (i = 0; i < SDL_arraysize(points); i++) {
-        points[i].x = SDL_randf() * ((float) WINDOW_WIDTH);
-        points[i].y = SDL_randf() * ((float) WINDOW_HEIGHT);
-        point_speeds[i] = MIN_PIXELS_PER_SECOND + (SDL_randf() * (MAX_PIXELS_PER_SECOND - MIN_PIXELS_PER_SECOND));
-    }
-
-    last_time = SDL_GetTicks();
+    SDL_AppResult res = gField.createField("assets/cell.png",renderer);
+    if(res==SDL_APP_FAILURE) return SDL_APP_FAILURE;
+    
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
 
@@ -93,31 +69,44 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 {
     switch (event->type)
     {
-    case SDL_EVENT_QUIT:
-        return SDL_APP_SUCCESS; 
-        break;
-    default:
-        break;
+        case SDL_EVENT_QUIT:
+            return SDL_APP_SUCCESS; 
+            break;
+        
+        case SDL_EVENT_MOUSE_BUTTON_DOWN:
+            if(event->button.button==SDL_BUTTON_LEFT){
+                
+            }
+            break;
+        default:
+            break;
     }
     return SDL_APP_CONTINUE;
 }
 
-/* This function runs once per frame, and is the heart of the program. */
+
 SDL_AppResult SDL_AppIterate(void *appstate)
-{   
-    SDL_SetRenderDrawColor(renderer, 50, 0, 80, 100);
-    SDL_RenderClear(renderer);
+{       
+    SDL_SetRenderDrawColor(renderer, 100, 0, 100, 100); 
+    SDL_RenderClear(renderer); 
     
-    SDL_SetRenderDrawColor(renderer, 0, 150, 0, 100);
-    SDL_RenderPoints(renderer,innRegCr.getInnerRegion().data(),innRegCr.getInnerRegion().size());
-                            
-    SDL_RenderPresent(renderer);
-    //return SDL_APP_FAILURE;
-    return SDL_APP_CONTINUE;  /* carry on with the program! */
+    gField.renderField(renderer);
+   
+    SDL_RenderPresent(renderer);  
+    return SDL_APP_CONTINUE;  
 }
-                            
-/* This function runs once at shutdown. */
+
+
 void SDL_AppQuit(void *appstate, SDL_AppResult result)
 {
-    /* SDL will clean up the window/renderer for us. */
+
 }
+
+// if(i==0 && j==0){
+//     SDL_SetRenderDrawColor(renderer, 0, 255, 0, 100); 
+//     auto reqtprt = field[i][j].getRectPtr();
+//     std::cout<< reqtprt->x << " " << reqtprt->y << '\n';
+
+//     SDL_RenderFillRect(renderer,reqtprt);
+//     continue;
+// }

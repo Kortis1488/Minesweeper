@@ -1,24 +1,30 @@
 cmake_minimum_required(VERSION 3.16)
-project(Water)
+project(Mine)
 
 
-# set the output directory for built objects.
-# This makes sure that the dynamic library goes into the build directory automatically.
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+set(DSDLIMAGE_VENDORED=OFF)
 
-# This assumes the SDL source is available in vendored/SDL
+
 add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)
+add_subdirectory(lib/SDL_image EXCLUDE_FROM_ALL)
 
+file(COPY "${CMAKE_SOURCE_DIR}/assets"
+     DESTINATION "${CMAKE_BINARY_DIR}/Debug")
 
-# Create your game executable target as usual
-add_executable(Water 
+add_executable(Mine 
                     src/main.cpp
-                    src/vertexexCreators.cpp 
-                    src/coordinateTransformator.cpp
-                    src/filler.cpp
-                    src/shapeAssembler.cpp
-                    src/Image.cpp)
 
-# Link to the actual SDL3 library.
-target_link_libraries(Water PRIVATE SDL3::SDL3)
+                    src/renderLogic/vertexexCreators.cpp 
+                    src/renderLogic/coordinateTransformator.cpp
+                    src/renderLogic/filler.cpp
+                    src/renderLogic/shapeAssembler.cpp
+                    src/renderLogic/Image.cpp
+                    
+                    src/gameLogic/cell.cpp
+                    src/gameLogic/field.cpp 
+                    )
+
+target_link_libraries(Mine PRIVATE SDL3_image::SDL3_image SDL3::SDL3)
