@@ -29,8 +29,9 @@ static int texture_width = 0;
 static int texture_height = 0;
 int rows = 20;
 int cols = 30;
+borders bords;
 
-field gField(rows,cols);
+field gField(rows,cols,WW,WH);
 
 
 #define WINDOW_WIDTH 1280
@@ -59,6 +60,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
     SDL_AppResult res = gField.createField("assets/cell.png",renderer);
     if(res==SDL_APP_FAILURE) return SDL_APP_FAILURE;
+
+    bords = gField.getBorders();
     
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
@@ -75,7 +78,13 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
         
         case SDL_EVENT_MOUSE_BUTTON_DOWN:
             if(event->button.button==SDL_BUTTON_LEFT){
-                
+                if(event->button.x >= bords.min.x && 
+                    event->button.y >= bords.min.y && 
+                    event->button.x <= bords.max.x && 
+                    event->button.y <= bords.max.y){
+                    gField.openCell({event->button.x, event->button.y});
+                    std::cout << event->button.x << " " << event->button.y << "\n";
+                }
             }
             break;
         default:

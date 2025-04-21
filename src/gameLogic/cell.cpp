@@ -1,14 +1,14 @@
 #include "cell.h"
 
-const SDL_FPoint cell::sizes = {16, 16};
+const SDL_FPoint cell::sizes = {32, 32};
 
 
 cell::cell(SDL_Texture* texture, cellType type, SDL_FPoint pos)
 {   
     std::cout<< pos.x << " " << pos.y << "\n";
-    sprite = {0,0,16,16};
+    sprite = {0,0,sizes.x,sizes.y};
     this->position = pos;
-    rect = {position.x, position.y,16,16};
+    rect = {position.x, position.y,sizes.x,sizes.y};
     this->texture = texture;
     this->status = CLOSE;
     this->type = type; 
@@ -16,8 +16,9 @@ cell::cell(SDL_Texture* texture, cellType type, SDL_FPoint pos)
 
 void cell::open()
 {
+    if(status!=OPEN) sprite.x += sizes.x*type;
+    else return;
     status = OPEN;
-    sprite.x += 16*type;
 }
 
 SDL_FRect *cell::getSpritePtr()
