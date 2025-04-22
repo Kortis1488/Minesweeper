@@ -25,6 +25,7 @@ add_executable(Mine
                     
                     src/gameLogic/cell.cpp
                     src/gameLogic/field.cpp 
+                    src/gameLogic/retryButton.cpp
                     )
 
 target_link_libraries(Mine PRIVATE SDL3_image::SDL3_image SDL3::SDL3)

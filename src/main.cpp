@@ -29,7 +29,8 @@ static int texture_width = 0;
 static int texture_height = 0;
 int rows = 20;
 int cols = 30;
-borders bords;
+borders fBords;
+borders rBords;
 
 field gField(rows,cols,WW,WH);
 
@@ -61,7 +62,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
     SDL_AppResult res = gField.createField("assets/cell.png",renderer);
     if(res==SDL_APP_FAILURE) return SDL_APP_FAILURE;
 
-    bords = gField.getBorders();
+    fBords = gField.getFieldBorders();
+    rBords = gField.getRetryBorders();
     
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
@@ -77,15 +79,37 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
             break;
         
         case SDL_EVENT_MOUSE_BUTTON_DOWN:
+            
             if(event->button.button==SDL_BUTTON_LEFT){
-                if(event->button.x >= bords.min.x && 
-                    event->button.y >= bords.min.y && 
-                    event->button.x <= bords.max.x && 
-                    event->button.y <= bords.max.y){
-                    gField.openCell({event->button.x, event->button.y});
-                    std::cout << event->button.x << " " << event->button.y << "\n";
+                std:: cout << event->button.x << " " << event->button.y << '\n';
+                std:: cout << rBords.min.x << " " << rBords.min.y << '\n';
+                std:: cout << rBords.max.x << " " << rBords.max.y<< '\n';
+                if(event->button.x >= rBords.min.x && 
+                    event->button.y >= rBords.min.y && 
+                    event->button.x <= rBords.max.x && 
+                    event->button.y <= rBords.max.y){
+                    gField.reset(); 
+                    std::cout<<"YEEEEEEEEEEES\n" << rBords.min.x << "\n";
                 }
             }
+            if(!gField.iLost()){
+                if(event->button.button==SDL_BUTTON_LEFT){
+                    if(event->button.x >= fBords.min.x && 
+                        event->button.y >= fBords.min.y && 
+                        event->button.x <= fBords.max.x && 
+                        event->button.y <= fBords.max.y){
+                            gField.openCell({event->button.x, event->button.y}); 
+                        }
+                    }
+                if(event->button.button==SDL_BUTTON_RIGHT){
+                    if(event->button.x >= fBords.min.x && 
+                        event->button.y >= fBords.min.y && 
+                        event->button.x <= fBords.max.x && 
+                        event->button.y <= fBords.max.y){
+                        gField.setFlag({event->button.x, event->button.y});
+                    }
+                }
+            }   
             break;
         default:
             break;
@@ -96,7 +120,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 
 SDL_AppResult SDL_AppIterate(void *appstate)
 {       
-    SDL_SetRenderDrawColor(renderer, 100, 0, 100, 100); 
+    SDL_SetRenderDrawColor(renderer, 0, 50, 50, 100); 
     SDL_RenderClear(renderer); 
     
     gField.renderField(renderer);

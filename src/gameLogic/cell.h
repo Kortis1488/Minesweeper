@@ -26,11 +26,15 @@
     private:
         SDL_FRect sprite;
         SDL_FRect rect;
+        int mineCounter;
+        void untag();
     public:
-        cell(SDL_Texture* texture, cellType type, SDL_FPoint pos);
-        void open();
-        SDL_Texture* texture;
-        
+        void reset();
+        cell(SDL_FPoint pos);
+        bool open();
+        void tag();
+        void incMineCounter();
+        int getMineCounter();
         SDL_FRect * getSpritePtr();
         SDL_FRect * getRectPtr();
         static const SDL_FPoint sizes;

@@ -2,23 +2,62 @@
 
 const SDL_FPoint cell::sizes = {32, 32};
 
+void cell::reset()
+{
+    status = CLOSE;
+    mineCounter = 0;
+    type = EMPTY;
+    sprite = {0,0,sizes.x,sizes.y};
+}
 
-cell::cell(SDL_Texture* texture, cellType type, SDL_FPoint pos)
+cell::cell( SDL_FPoint pos)
 {   
-    std::cout<< pos.x << " " << pos.y << "\n";
+    mineCounter = 0;
     sprite = {0,0,sizes.x,sizes.y};
     this->position = pos;
     rect = {position.x, position.y,sizes.x,sizes.y};
-    this->texture = texture;
     this->status = CLOSE;
-    this->type = type; 
+    type = EMPTY;
 }
 
-void cell::open()
+bool cell::open()
 {
-    if(status!=OPEN) sprite.x += sizes.x*type;
-    else return;
+    if(status!=OPEN && status != FLAG) {
+        sprite.x += sizes.x*type;
+    }
+    else return false;
     status = OPEN;
+    
+    if(type == MINE) return true;
+    return false;
+}
+
+void cell::incMineCounter()
+{
+    mineCounter++;
+    type = (cellType)(mineCounter+1); 
+}
+
+int cell::getMineCounter()
+{
+    return mineCounter;
+}
+
+void cell::tag()
+{
+    if(status == FLAG) {
+        untag();
+        return;
+    }
+    if(status!=OPEN) sprite.x += sizes.x*11;
+    else return;
+    status = FLAG;
+}
+
+void cell::untag()
+{
+    sprite.x -= sizes.x*11;
+    status = CLOSE;
 }
 
 SDL_FRect *cell::getSpritePtr()
