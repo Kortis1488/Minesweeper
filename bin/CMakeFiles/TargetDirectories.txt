@@ -1,0 +1,15 @@
+D:/Desktop/minesweeper/bin/CMakeFiles/Mine.dir
+D:/Desktop/minesweeper/bin/CMakeFiles/PACKAGE.dir
+D:/Desktop/minesweeper/bin/CMakeFiles/INSTALL.dir
+D:/Desktop/minesweeper/bin/CMakeFiles/ALL_BUILD.dir
+D:/Desktop/minesweeper/bin/CMakeFiles/ZERO_CHECK.dir
+D:/Desktop/minesweeper/bin/lib/SDL/CMakeFiles/SDL3-shared.dir
+D:/Desktop/minesweeper/bin/lib/SDL/CMakeFiles/SDL3_test.dir
+D:/Desktop/minesweeper/bin/lib/SDL/CMakeFiles/SDL_uclibc.dir
+D:/Desktop/minesweeper/bin/lib/SDL/CMakeFiles/PACKAGE.dir
+D:/Desktop/minesweeper/bin/lib/SDL/CMakeFiles/INSTALL.dir
+D:/Desktop/minesweeper/bin/lib/SDL/CMakeFiles/ALL_BUILD.dir
+D:/Desktop/minesweeper/bin/lib/SDL_image/CMakeFiles/SDL3_image-shared.dir
+D:/Desktop/minesweeper/bin/lib/SDL_image/CMakeFiles/PACKAGE.dir
+D:/Desktop/minesweeper/bin/lib/SDL_image/CMakeFiles/INSTALL.dir
+D:/Desktop/minesweeper/bin/lib/SDL_image/CMakeFiles/ALL_BUILD.dir
