@@ -1,9 +1,0 @@
-D:\Desktop\minesweeper\src\main.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\main.obj
-D:\Desktop\minesweeper\src\renderLogic\vertexexCreators.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\vertexexCreators.obj
-D:\Desktop\minesweeper\src\renderLogic\coordinateTransformator.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\coordinateTransformator.obj
-D:\Desktop\minesweeper\src\renderLogic\filler.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\filler.obj
-D:\Desktop\minesweeper\src\renderLogic\shapeAssembler.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\shapeAssembler.obj
-D:\Desktop\minesweeper\src\renderLogic\Image.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\Image.obj
-D:\Desktop\minesweeper\src\gameLogic\cell.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\cell.obj
-D:\Desktop\minesweeper\src\gameLogic\field.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\field.obj
-D:\Desktop\minesweeper\src\gameLogic\retryButton.cpp;D:\Desktop\minesweeper\bin\Mine.dir\Release\retryButton.obj
