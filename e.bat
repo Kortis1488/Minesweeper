@@ -1,2 +1,2 @@
-cmake --build bin
-D:\Desktop\minesweeper\bin\Debug\Mine.exe 
+cmake --build build
+D:\Desktop\minesweeper\build\Debug\Mine.exe 

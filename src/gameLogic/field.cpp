@@ -2,6 +2,22 @@
 
 SDL_Texture* field::texture = nullptr;
 
+
+field::field(int rows, int cols, int ww, int wh) : rows(rows), cols(cols), gameStart(false), lose(false), button(texture)
+{   
+    offset.x = (ww - cols*cellSize)/2;
+    offset.y = (wh - rows*cellSize)/2;
+    
+    fieldBorders.min = offset;
+    fieldBorders.max.x = cols*cellSize + offset.x;
+    fieldBorders.max.y = rows*cellSize + offset.y;
+
+    retryButtonBorders.min.x = button.getRect()->x;
+    retryButtonBorders.min.y = button.getRect()->y;
+    retryButtonBorders.max.x = retryButtonBorders.min.x+button.getRect()->w;
+    retryButtonBorders.max.y = retryButtonBorders.min.y+button.getRect()->h;
+}
+
 void field::renderField(SDL_Renderer *renderer)
 {
     for (int i = 0; i < rows; i++) {
@@ -17,31 +33,31 @@ void field::reset()
 {
     gameStart = false;
     lose = false;   
-    for(int i = 0; i<cols; i++){
-        for(int j = 0; j<rows; j++){
-            gameField[j][i].reset();
-        }
-    }
+    auto r = [](cell*c){
+        c->reset();
+    };
+    forEeachCells(r);
 }
 
 
 void field::setMines(int x, int y)
 {
     gameStart = true;
-    gameField[y][x].type = EMPTY;
 
-    std::random_device rd;             // источник случайностей
-    std::mt19937 gen(rd());            // генератор (Mersenne Twister)
-    std::uniform_int_distribution<> dis(1, 9); // равномерное распределение от 1 до 6
-    int rn;
-    for(int i = 0; i<cols; i++){
-        for(int j = 0; j<rows; j++){
-            rn = dis(gen); 
-            if(rn == 5) {
-                gameField[j][i].type = MINE;
-            }
+    std::random_device rd;             
+    std::mt19937 gen(rd());            
+    std::uniform_int_distribution<> dis(1, 9); 
+   
+    auto rM = [&dis, &gen](cell* c){
+        int rn = dis(gen); 
+        if(rn == 5 || rn == 4) {
+            c->type = MINE;
         }
-    }
+    };
+   
+   
+    forEeachCells(rM);
+    gameField[y][x].type = EMPTY;
     analysCells();
 }
 
@@ -50,12 +66,10 @@ void field::analysCells()
     for(int i = 0; i<cols; i++){
         for(int j = 0; j<rows; j++){
             if(gameField[j][i].type == MINE) continue;
-
             for(int x = (i-1); x<=(i+1); x++){
                 for(int y = (j-1); y<=(j+1); y++){
                     if(x==i&&y==j) continue;
                     try{
-
                         if(gameField.at(y).at(x).type == MINE) gameField[j][i].incMineCounter();
                     }
                     catch (const std::exception& e) {
@@ -72,20 +86,7 @@ bool field::iLost()
     return lose;
 }
 
-field::field(int rows, int cols, int ww, int wh) : rows(rows), cols(cols), gameStart(false), lose(false), button(texture)
-{   
-    offset.x = (ww - cols*cellSize)/2;
-    offset.y = (wh - rows*cellSize)/2;
-    
-    fieldBorders.min = offset;
-    fieldBorders.max.x = cols*cellSize + offset.x;
-    fieldBorders.max.y = rows*cellSize + offset.y;
 
-    retryButtonBorders.min.x = button.getRect()->x;
-    retryButtonBorders.min.y = button.getRect()->y;
-    retryButtonBorders.max.x = retryButtonBorders.min.x+button.getRect()->w;
-    retryButtonBorders.max.y = retryButtonBorders.min.y+button.getRect()->h;
-}
 
 void field::openCell(SDL_FPoint point)
 {
@@ -163,25 +164,18 @@ void field::openRegionAroundOpenedCells(int x, int y)
 void field::openAllMines()
 {
     lose = true;
-    for(int i = 0; i<cols; i++){
-        for(int j = 0; j<rows; j++){
-            if(gameField[j][i].type == MINE) {
-                gameField[j][i].open();
-                
-            }
-        }
-    }
+    auto oAM = [](cell* c){
+        if(c->type == MINE) c->open();
+    };
+    forEeachCells(oAM);
 }
 
 
 
 void field::setFlag(SDL_FPoint point)
 {
-    int x = point.x - offset.x;
-    int y = point.y - offset.y;
-    x = x/cellSize;
-    y = y/cellSize;
-
+    int x = (point.x - offset.x)/cellSize;
+    int y = (point.y - offset.y)/cellSize;
     try {
         gameField.at(y).at(x).tag();
     }
@@ -209,17 +203,11 @@ SDL_AppResult field::createField(const char *pathOfTexture, SDL_Renderer *render
     if(!(texture = IMG_LoadTexture(renderer, pathOfTexture))){
         return SDL_APP_FAILURE;
     }
-    
-    float xPos, yPos;
-
     for (int i = 0; i < rows; i++) {
         gameField.emplace_back();
         for (int j = 0; j < cols; j++) {
-            xPos = j*cellSize+offset.x;
-            yPos = i*cellSize+offset.y;
-            gameField[i].emplace_back(cell({xPos,yPos}));
+            gameField[i].emplace_back(cell({j*cellSize+offset.x, i*cellSize+offset.y}));
         }
     }
-
     return SDL_APP_CONTINUE;
 }

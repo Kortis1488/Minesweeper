@@ -11,6 +11,8 @@ struct borders{
 };
 
 
+
+
 class field{
     private:
         bool gameStart;
@@ -29,11 +31,14 @@ class field{
         void openRegionAroundEmptyCells(int x, int y);
         void openRegionAroundOpenedCells(int x, int y);
         void openAllMines();
-        void openCell(int x, int y);
+
+        template<typename FuncForCell>
+        void forEeachCells(FuncForCell func);
+        
     public:
+        field(int rows, int cols, int ww, int wh);
         bool iLost();
         void reset();
-        field(int rows, int cols, int ww, int wh);
         void renderField(SDL_Renderer *renderer);
         void openCell(SDL_FPoint point);
         void setFlag(SDL_FPoint point);
@@ -42,3 +47,13 @@ class field{
         SDL_AppResult createField(const char* pathOfTexture, SDL_Renderer *renderer);
         ~field();
 };
+
+template <typename FuncForCell>
+inline void field::forEeachCells(FuncForCell func)
+{
+    for(int i = 0; i<cols; i++){
+        for(int j = 0; j<rows; j++){
+                func(&gameField[j][i]);   
+        }
+    }
+}
